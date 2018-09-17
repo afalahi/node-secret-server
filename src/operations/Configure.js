@@ -7,20 +7,20 @@ const fileSystem = require('fs');
 const _clientAccount = new WeakMap();
 
 class Configure {
-    constructor (opts){
+    constructor (options){
         _clientAccount.set(this, () => {
-            let options = {
-                uri:`${opts.baseUrl}/api/v1/sdk-client-accounts`,
+            let opts = {
+                uri:`${options.baseUrl}/api/v1/sdk-client-accounts`,
                 body:{
                     clientId: uuid(),
                     description: `Machine : ${process.env.COMPUTERNAME || process.env.HOSTNAME}, OS : ${process.platform} ${process.arch} - NodeJS ${process.version}`,
                     name: process.env.COMPUTERNAME || process.env.HOSTNAME,
-                    ruleName: opts.ruleName,
-                    onboardingKey: opts.ruleKey
+                    ruleName: options.ruleName,
+                    onboardingKey: options.ruleKey
                 },
                 json:true
             };
-            return request.post(options) 
+            return request.post(opts) 
                 .then(res => {
                     return res;
                 })
