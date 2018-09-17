@@ -1,15 +1,22 @@
 "use strict";
+
 require('dotenv').config();
 const Configure = require('./operations/Configure');
 const request = require('request-promise');
 const _config = new WeakMap()
 
 class Client {
-    constructor(url, ruleName, ruleKey) {
-        this.baseUrl = url || process.env.baseURL;
-        this.ruleName = ruleName || process.env.RULE_NAME;
-        this.ruleKey = ruleKey || process.env.RULE_KEY
-        _config.set(this, () => { let config = new Configure(this.baseUrl, this.ruleName, this.ruleKey); return config });
+    constructor(options) {
+        this.options = options || {};
+        this.options.baseUrl = options ? options.url : process.env.baseURL;
+        this.options.ruleName = options ? options.ruleName : process.env.RULE_NAME;
+        this.options.ruleKey = options ? options.ruleKey : process.env.RULE_KEY;
+        Object.keys(this.options).forEach((key) => {
+            if(this.options[key] === undefined) {
+                throw new TypeError(`${key} is undefined`)
+            }
+        });
+        _config.set(this, () => { let config = new Configure(this.options); return config });
     }
 
     init() {
@@ -19,7 +26,7 @@ class Client {
     accessToken() {
        let creds = _config.get(this)().loadCredentials();
        return request.post({
-           uri:`${this.baseUrl}/oauth2/token`,
+           uri:`${this.options.baseUrl}/oauth2/token`,
            form: creds
        })
        .then(res => {
