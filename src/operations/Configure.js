@@ -7,7 +7,8 @@ const fileSystem = require('fs');
 const _clientAccount = new WeakMap();
 
 class Configure {
-    constructor (options){
+    
+    constructor (options) {
         _clientAccount.set(this, () => {
             let opts = {
                 uri:`${options.baseUrl}/api/v1/sdk-client-accounts`,
@@ -30,13 +31,13 @@ class Configure {
                         client_secret: res.clientSecret,
                         grant_type: 'client_credentials'
                     }
-                    fileSystem.writeFile(`creds.json`,JSON.stringify(creds), function(err, file){
+                    fileSystem.writeFile(`creds.json`,JSON.stringify(creds), function(err, file) {
                         if (err) throw err;
                     });
                 })
-                .catch(err =>{
+                .catch(err => {
                     throw err;
-                })
+                });
         });
     }
 
