@@ -39,9 +39,4 @@ class Client {
 }
 const cli = new Client
 
-
-// function client(url, ruleName, ruleKey) {
-//     return new Client(url, ruleName, ruleKey)
-// }
-//const cli = client().init()
 module.exports = Client
