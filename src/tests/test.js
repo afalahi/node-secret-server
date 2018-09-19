@@ -9,6 +9,7 @@ Promise.resolve(client.accessToken()).then(res => {console.log(res)})
 try{
     if(!(fileSystem.existsSync('aes-key.json'))){
         fileSystem.writeFileSync('aes-key.json',JSON.stringify({key:crypto.randomBytes(32).toString('hex')}));
+        return fileSystem.readFileSync('aes-key.json')
     }
 } catch (e) {
     throw new Error(e.message);

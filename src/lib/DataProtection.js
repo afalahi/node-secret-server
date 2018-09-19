@@ -14,13 +14,15 @@ class DataProtection {
             try{
                 if(!(fileSystem.existsSync('key.json'))){
                     fileSystem.writeFileSync('key.json',JSON.stringify({key:crypto.randomBytes(32).toString('hex')}));
+                    Buffer.concat([cipher.update(new Buffer(JSON.stringify(data), "utf8"))
+                    return fileSystem.readFileSync('key.json')
                 }
             } catch (e) {
                 throw new Error(e.message);
             }
         });
         _nonce.set(this, () => {
-            crypto.randomBytes(12).toString('hex');
+            return crypto.randomBytes(12).toString('hex');
         });
     }
 
@@ -32,7 +34,7 @@ class DataProtection {
         try {
             let cipher = crypto.createCipheriv('aes-256-gcm', _key.get(this)(), _nonce.get(this)())
             let encrypted = Buffer.concat([cipher.update(new Buffer(JSON.stringify(data), "utf8")), cipher.final()])
-            fileSystem.writeFileSync(_filePath.get(this), encrypted)
+            fileSystem.writeFileSync(_filePath.get(this), _nonce.get(this)()+encrypted)
             return {message: 'File encrypted'}
         } catch (exception) {
             throw new Error(exception.message)
@@ -52,3 +54,6 @@ class DataProtection {
         }
     }
 }
+
+const dp = new DataProtection('test.json');
+dp.encrypt("testdata")
