@@ -12,8 +12,8 @@ class DataProtection {
         _filePath.set(this, filePath);
         _key.set(this, () =>{
             try{
-                if(!(fileSystem.existsSync('key.txt'))){
-                    fileSystem.writeFileSync('key.txt',crypto.randomBytes(32).toString('hex'));
+                if(!(fileSystem.existsSync('key.json'))){
+                    fileSystem.writeFileSync('key.json',JSON.stringify({key:crypto.randomBytes(32).toString('hex')}));
                 }
             } catch (e) {
                 throw new Error(e.message);

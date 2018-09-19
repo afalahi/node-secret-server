@@ -7,8 +7,8 @@ const client = new SecretServer()
 Promise.resolve(client.accessToken()).then(res => {console.log(res)})
 */
 try{
-    if(!(fileSystem.existsSync('key.key'))){
-        fileSystem.writeFileSync('key.key',crypto.randomBytes(32).toString('hex'));
+    if(!(fileSystem.existsSync('aes-key.json'))){
+        fileSystem.writeFileSync('aes-key.json',JSON.stringify({key:crypto.randomBytes(32).toString('hex')}));
     }
 } catch (e) {
     throw new Error(e.message);
