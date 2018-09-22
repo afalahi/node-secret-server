@@ -4,6 +4,8 @@ require('dotenv').config();
 const uuid = require('uuid/v1');
 const request = require('request-promise');
 const fileSystem = require('fs');
+const DataProtection  = require('../lib/DataProtection');
+const  protect  = new DataProtection('creds.json')
 const _clientAccount = new WeakMap();
 
 class Configure {
@@ -31,9 +33,16 @@ class Configure {
                         client_secret: res.clientSecret,
                         grant_type: 'client_credentials'
                     }
-                    fileSystem.writeFile(`creds.json`,JSON.stringify(creds), function(err, file) {
-                        if (err) throw err;
-                    });
+                    // fileSystem.writeFile(`creds.json`,JSON.stringify(creds), function(err, file) {
+                    //     if (err) throw err;
+                    // });
+                    protect.encrypt(creds)
+                        .then(res => {
+                            return res;
+                        })
+                        .catch(err => {
+                            throw err;
+                        });
                 })
                 .catch(err => {
                     throw err;
@@ -52,7 +61,7 @@ class Configure {
         if(!(fileSystem.existsSync('creds.json'))) {
             throw "Client not initialized"
         }
-        let creds = JSON.parse(fileSystem.readFileSync('creds.json',"utf8"));
+        let creds = protect.decrypt().then(res => {return res}).catch(err => {throw err});
         return creds
     }
 }
