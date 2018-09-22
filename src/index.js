@@ -24,17 +24,19 @@ class Client {
     }
 
     accessToken() {
-       let creds = _config.get(this)().loadCredentials();
-       return request.post({
-           uri:`${this.options.baseUrl}/oauth2/token`,
-           form: creds
-       })
-       .then(res => {
-           return res;
-       })
-       .catch(err => {
-           throw err;
-       })
+        return Promise.resolve(_config.get(this)().loadCredentials()).then(res => {
+            return request.post({
+                uri:`${this.options.baseUrl}/oauth2/token`,
+                form: res
+            })
+            .then(res => {
+                return res;
+            })
+            .catch(err => {
+                throw err;
+            });
+       });
+
     }
 }
 const cli = new Client
