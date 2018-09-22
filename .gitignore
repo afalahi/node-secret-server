@@ -63,3 +63,4 @@ typings/
 #sensitive files
 creds.json
 config.json
+masterKey.json
