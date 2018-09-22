@@ -7,7 +7,8 @@ const crypto = require('crypto');
 
 const client = new SecretServer()
 //client.init()
-Promise.resolve(client.accessToken()).then(res => {console.log(res)})
+//Promise.resolve(client.accessToken()).then(res => {console.log(res)})
+client.remove()
 
 // let masterKey
 // try{
