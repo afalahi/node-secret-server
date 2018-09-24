@@ -4,10 +4,11 @@ require('dotenv').config();
 const uuid = require('uuid/v1');
 const request = require('request-promise');
 const fileSystem = require('fs');
-const DataProtection  = require('../lib/DataProtection');
-const  protect  = new DataProtection('creds.json')
+const DataProtection = require('../lib/DataProtection');
+
 const _clientAccount = new WeakMap();
 const filePath = 'creds.json'
+const protect  = new DataProtection(filePath)
 
 class Configure {
   constructor (options) {
@@ -61,7 +62,6 @@ class Configure {
     }
 
     let creds = protect.decrypt().then(res => {return res}).catch(err => {throw err});
-    
     return creds
   }
 

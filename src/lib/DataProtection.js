@@ -20,14 +20,12 @@ class DataProtection {
     _masterKey.set(this, () => {
       let masterKey
       try {
-        if (!(fileSystem.existsSync('masterKey.json'))) {
+        if (!(fileSystem.existsSync('masterKey.config'))) {
           masterKey = crypto.randomBytes(32).toString('base64')
 
-          fileSystem.writeFileSync('masterKey.json',JSON.stringify( {
-            key:masterKey
-          }));
+          fileSystem.writeFileSync('masterKey.config',masterKey)
         } else {
-          masterKey = JSON.parse(fileSystem.readFileSync('masterKey.json')).key
+          masterKey = fileSystem.readFileSync('masterKey.config').toString()
         }
 
           return masterKey;
