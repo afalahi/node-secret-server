@@ -1,10 +1,10 @@
-const request = require('request-promise');
-const ResponseHandler = require('../helpers/ResponseHandler');
+const request = require("request-promise");
+const ResponseHandler = require("../helpers/ResponseHandler");
 
 class Secret {
   constructor(url, token) {
-    if (url === typeof undefined) {
-      throw TypeError('Url not defined')
+    if (url === typeof "undefined") {
+      throw new TypeError("Url not defined");
     }
     this.rp = request.defaults({
       baseUrl: `${url}/api/v1/secrets/`,
@@ -15,13 +15,12 @@ class Secret {
     this.token = token;
     this.ResponseHandler = ResponseHandler;
     this.request = (options = {}) => {
-      return this.rp(options).then(res => new ResponseHandler(res));
-    }
+      return this.rp(options).then((res) => new ResponseHandler(res));
+    };
   }
-
   get (id) {
-    if (id === typeof undefined) {
-      throw 'Expected a secret ID';
+    if (id === typeof "undefined") {
+      throw "Expected a secret ID";
     }
   
     return this.token
@@ -29,7 +28,7 @@ class Secret {
         let options = {};
         options.headers = {Authorization: `bearer ${JSON.parse(res).access_token}`};
         options.uri = id.toString();
-        options.method = 'GET';
+        options.method = "GET";
         return options;
       })
       .then((res) => {

@@ -1,4 +1,4 @@
-class SecretServerError extends Error {}
+class SecretServerError extends Error {};
 
 class ErrorHandler extends SecretServerError {
   constructor(message, response) {
@@ -6,11 +6,11 @@ class ErrorHandler extends SecretServerError {
     this.response = {
       statusCode: response.statusCode,
       body: response.body
-    }
+    };
   }
 }
 
 module.exports = {
   SecretServerError: SecretServerError,
   ErrorHandler: ErrorHandler
-}
+};

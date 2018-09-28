@@ -1,9 +1,9 @@
 "use strict";
 
-require('dotenv').config();
-const Configure = require('./operations/Configure');
-const request = require('request-promise');
-const Secret = require('./operations/Secret');
+require("dotenv").config();
+const Configure = require("./operations/Configure");
+const request = require("request-promise");
+const Secret = require("./operations/Secret");
 
 const _config = new WeakMap();
 const _secret = new WeakMap();
@@ -16,12 +16,12 @@ class Client {
     this.options.ruleKey = options ? options.ruleKey : process.env.RULE_KEY;
 
     Object.keys(this.options).forEach((key) => {
-      if (this.options[key] === undefined) {
+      if (this.options[key] === typeof undefined) {
         throw new TypeError(`${key} is undefined`);
       }
     });
 
-    _config.set(this, () => { let config = new Configure(this.options); return config });
+    _config.set(this, () => { let config = new Configure(this.options); return config; });
 
     this.token = this.accessToken();
     let secret =  new Secret(this.options.baseUrl, this.token);

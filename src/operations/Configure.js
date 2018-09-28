@@ -7,8 +7,8 @@ const fileSystem = require("fs");
 const DataProtection = require("../lib/DataProtection");
 
 const _clientAccount = new WeakMap();
-const filePath = "creds.json"
-const protect  = new DataProtection(filePath)
+const filePath = "creds.json";
+const protect  = new DataProtection(filePath);
 
 class Configure {
   constructor (options) {
@@ -33,7 +33,7 @@ class Configure {
             client_id: `sdk-client-${res.clientId}`,
             client_secret: res.clientSecret,
             grant_type: "client_credentials"
-          }
+          };
           protect.encrypt(creds)
             .then((res) => {
               return res;
@@ -50,7 +50,7 @@ class Configure {
 
   saveCredentials() {
     if (fileSystem.existsSync(filePath)) {
-      console.log("Client Already Initialized")
+      console.log("Client Already Initialized");
     }
 
     _clientAccount.get(this)();
@@ -58,11 +58,11 @@ class Configure {
 
   loadCredentials() {
     if (!(fileSystem.existsSync(filePath))) {
-      throw "Client not initialized"
+      throw "Client not initialized";
     }
 
-    let creds = protect.decrypt().then((res) => {return res}).catch((err) => {throw err});
-    return creds
+    let creds = protect.decrypt().then((res) => {return res;}).catch((err) => {throw err;});
+    return creds;
   }
 
   destroyCredentials() {
@@ -74,8 +74,8 @@ class Configure {
         if (err) {
           return err;
         }
-        console.log("Configuration remove successfully")
-      })
+        console.log("Configuration remove successfully");
+      });
     });
   }
 }
