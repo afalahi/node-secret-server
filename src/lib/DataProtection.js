@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 const fileSystem = require("fs");
 const crypto = require("crypto");
-const homeDir = require("os").homedir()
+const homeDir = require("os").homedir();
 const _masterKey = new WeakMap();
 const _nonce = new WeakMap();
 const _salt = new WeakMap();
@@ -47,7 +47,7 @@ class DataProtection {
 
     //The function that derives the key, this supports sync and async operations
     _key.set(this, (salt, callback) => {
-        if(callback === undefined) {
+        if(callback === typeof "undefined") {
             return crypto.pbkdf2Sync(_masterKey.get(this)(), salt, 2145, 32, "sha512");
         }
 
@@ -101,7 +101,7 @@ class DataProtection {
 
       fileSystem.writeFileSync(this.filePath, _encrypt.get(this)(key,nonce, data, salt));
 
-      return {message: "File encrypted"}
+      return {message: "File encrypted"};
 
     } catch (e) {
         throw new Error(e.message);

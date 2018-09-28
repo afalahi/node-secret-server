@@ -1,11 +1,11 @@
-const ErrorHandler = require('./ErrorHandler');
+const ErrorHandler = require("./ErrorHandler");
 const ApiError = ErrorHandler.ErrorHandler;
 const SecretServerError = ErrorHandler.SecretServerError;
 
 class ResponseHandler {
   constructor(response) {
     if (!response) {
-      return Promise.reject(new SecretServerError('No response passed'));
+      return Promise.reject(new SecretServerError("No response passed"));
     }
 
     if (response.statusCode !== 200 && response.statusCode !== 204) {
@@ -24,4 +24,4 @@ class ResponseHandler {
   }
 }
 
-module.exports = ResponseHandler
+module.exports = ResponseHandler;
