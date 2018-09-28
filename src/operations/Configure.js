@@ -1,13 +1,13 @@
 "use strict";
 
-require('dotenv').config();
-const uuid = require('uuid/v1');
-const request = require('request-promise');
-const fileSystem = require('fs');
-const DataProtection = require('../lib/DataProtection');
+require("dotenv").config();
+const uuid = require("uuid/v1");
+const request = require("request-promise");
+const fileSystem = require("fs");
+const DataProtection = require("../lib/DataProtection");
 
 const _clientAccount = new WeakMap();
-const filePath = 'creds.json'
+const filePath = "creds.json"
 const protect  = new DataProtection(filePath)
 
 class Configure {
@@ -25,24 +25,24 @@ class Configure {
         json:true
       };
       return request.post(opts) 
-        .then(res => {
+        .then((res) => {
           return res;
         })
-        .then(res => {
+        .then((res) => {
           let creds = {
             client_id: `sdk-client-${res.clientId}`,
             client_secret: res.clientSecret,
-            grant_type: 'client_credentials'
+            grant_type: "client_credentials"
           }
           protect.encrypt(creds)
-            .then(res => {
+            .then((res) => {
               return res;
             })
-            .catch(err => {
+            .catch((err) => {
               throw err;
             });
         })
-        .catch(err => {
+        .catch((err) => {
           throw err;
         });
     });
@@ -61,7 +61,7 @@ class Configure {
       throw "Client not initialized"
     }
 
-    let creds = protect.decrypt().then(res => {return res}).catch(err => {throw err});
+    let creds = protect.decrypt().then((res) => {return res}).catch((err) => {throw err});
     return creds
   }
 
@@ -74,7 +74,7 @@ class Configure {
         if (err) {
           return err;
         }
-        console.log('Configuration remove successfully')
+        console.log("Configuration remove successfully")
       })
     });
   }
