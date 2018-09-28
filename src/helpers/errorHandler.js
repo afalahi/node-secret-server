@@ -1,6 +1,6 @@
 class SecretServerError extends Error {}
 
-class ApiResponseError extends SecretServerError {
+class ErrorHandler extends SecretServerError {
   constructor(message, response) {
     super(message);
     this.response = {
@@ -10,4 +10,7 @@ class ApiResponseError extends SecretServerError {
   }
 }
 
-module.exports = ApiResponseError
+module.exports = {
+  SecretServerError: SecretServerError,
+  ErrorHandler: ErrorHandler
+}

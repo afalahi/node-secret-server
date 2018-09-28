@@ -14,17 +14,18 @@ class Client {
     this.options.baseUrl = options ? options.url : process.env.baseURL;
     this.options.ruleName = options ? options.ruleName : process.env.RULE_NAME;
     this.options.ruleKey = options ? options.ruleKey : process.env.RULE_KEY;
-    
+
     Object.keys(this.options).forEach((key) => {
       if (this.options[key] === undefined) {
-        throw new TypeError(`${key} is undefined`)
+        throw new TypeError(`${key} is undefined`);
       }
     });
 
-    let secret =  new Secret(this.options.baseUrl);
-    _secret.set(this, secret)
-
     _config.set(this, () => { let config = new Configure(this.options); return config });
+
+    this.token = this.accessToken();
+    let secret =  new Secret(this.options.baseUrl, this.token);
+    _secret.set(this, secret);
   }
 
   init() {
@@ -42,21 +43,22 @@ class Client {
           uri:`${this.options.baseUrl}/oauth2/token`,
           form: res
         })
-        .then(res => {
+        .then((res) => {
           return res;
         })
-        .catch(err => {
+        .catch((err) => {
           throw err;
         });
       })
-      .catch(err => {
+      .catch((err) => {
         throw err;
       });
   }
 
   readSecret(id) {
-   return  _secret.get(this).get(id, this.accessToken());
+    this.asItems = true;
+    return _secret.get(this).get(id);
   }
 }
 
-module.exports = Client
+module.exports = Client;
