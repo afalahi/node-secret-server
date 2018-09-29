@@ -16,7 +16,7 @@ class Client {
     this.options.ruleKey = options ? options.ruleKey : process.env.RULE_KEY;
 
     Object.keys(this.options).forEach((key) => {
-      if (this.options[key] === typeof undefined) {
+      if (this.options[key] === undefined) {
         throw new TypeError(`${key} is undefined`);
       }
     });
