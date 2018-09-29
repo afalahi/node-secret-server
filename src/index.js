@@ -55,9 +55,11 @@ class Client {
       });
   }
 
-  readSecret(id) {
-    this.asItems = true;
-    return _secret.get(this).get(id);
+  getSecret(id) {
+    return Promise.resolve(_secret.get(this).get(id));
+  }
+  getSecretField(id, field) {
+    return Promise.resolve(_secret.get(this).getField(id, field));
   }
 }
 
