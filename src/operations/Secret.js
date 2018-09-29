@@ -17,15 +17,15 @@ class Secret {
     //handle the responses
     this.request = (options = {}) => {
       return token
-      .then((res) => {
-        options.headers = {Authorization: `bearer ${JSON.parse(res).access_token}`};
-      })
-      .then((res) => {
+        .then((res) => {
+          options.headers = {Authorization: `bearer ${JSON.parse(res).access_token}`};
+        })
+        .then((res) => {
           return this.rp(options).then((res) => new ResponseHandler(res));
-      })
-      .catch((err) => {
-        throw err;
-      });
+        })
+        .catch((err) => {
+          throw err;
+        });
     };
   }
 
