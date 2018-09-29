@@ -61,7 +61,13 @@ class Configure {
       throw "Client not initialized";
     }
 
-    let creds = protect.decrypt().then((res) => {return res;}).catch((err) => {throw err;});
+    let creds = protect.decrypt()
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        throw err;
+      });
     return creds;
   }
 
