@@ -76,7 +76,7 @@ class Configure {
       if (err) {
         console.log(err);
       }
-      fileSystem.unlink(filePath, (err) =>{
+      fileSystem.unlink(filePath, (err) => {
         if (err) {
           return err;
         }
