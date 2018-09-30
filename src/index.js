@@ -11,12 +11,12 @@ const _secret = new WeakMap();
 class Client {
   constructor(options) {
     this.options = options || {};
-    this.options.baseUrl = options ? options.url : process.env.baseURL;
+    this.options.baseUrl = options ? options.url : process.env.BASE_URL;
     this.options.ruleName = options ? options.ruleName : process.env.RULE_NAME;
     this.options.ruleKey = options ? options.ruleKey : process.env.RULE_KEY;
 
     Object.keys(this.options).forEach((key) => {
-      if (this.options[key] === typeof undefined) {
+      if (this.options[key] === undefined) {
         throw new TypeError(`${key} is undefined`);
       }
     });
@@ -55,9 +55,12 @@ class Client {
       });
   }
 
-  readSecret(id) {
-    this.asItems = true;
-    return _secret.get(this).get(id);
+  getSecret(id) {
+    return Promise.resolve(_secret.get(this).get(id));
+  }
+
+  getSecretField(id, field) {
+    return Promise.resolve(_secret.get(this).getField(id, field));
   }
 }
 

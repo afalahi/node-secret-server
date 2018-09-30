@@ -11,7 +11,7 @@ const _encrypt = new WeakMap();
 
 class DataProtection {
   constructor(filePath) {
-    if (filePath === typeof undefined) {
+    if (filePath === undefined) {
       throw new TypeError("Expected a string for file path");
     }
 
@@ -47,7 +47,7 @@ class DataProtection {
 
     //The function that derives the key, this supports sync and async operations
     _key.set(this, (salt, callback) => {
-        if(callback === typeof "undefined") {
+        if(callback === undefined) {
             return crypto.pbkdf2Sync(_masterKey.get(this)(), salt, 2145, 32, "sha512");
         }
 
