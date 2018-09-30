@@ -11,7 +11,7 @@ const _secret = new WeakMap();
 class Client {
   constructor(options) {
     this.options = options || {};
-    this.options.baseUrl = options ? options.url : process.env.baseURL;
+    this.options.baseUrl = options ? options.url : process.env.BASE_URL;
     this.options.ruleName = options ? options.ruleName : process.env.RULE_NAME;
     this.options.ruleKey = options ? options.ruleKey : process.env.RULE_KEY;
 
@@ -58,7 +58,7 @@ class Client {
   getSecret(id) {
     return Promise.resolve(_secret.get(this).get(id));
   }
-  
+
   getSecretField(id, field) {
     return Promise.resolve(_secret.get(this).getField(id, field));
   }
