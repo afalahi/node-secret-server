@@ -48,12 +48,19 @@ class Configure {
     });
   }
 
+  static isInitialized() {
+    if (!(fileSystem.existsSync(filePath))) {
+      throw "Client not initialized";
+    }
+  }
+
   saveCredentials() {
     if (fileSystem.existsSync(filePath)) {
       console.log("Client Already Initialized");
+      return;
     }
-
     _clientAccount.get(this)();
+    console.log("Initialized");
   }
 
   loadCredentials() {
@@ -74,11 +81,13 @@ class Configure {
   destroyCredentials() {
     fileSystem.stat(filePath, (err, stats) => {
       if (err) {
-        console.log(err);
+        console.error(err);
+        return;
       }
       fileSystem.unlink(filePath, (err) => {
         if (err) {
-          return err;
+          console.error(err);
+          return;
         }
         console.log("Configuration remove successfully");
       });

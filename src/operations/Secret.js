@@ -1,13 +1,15 @@
 "use strict";
 
+//require("../operations/Configure").isInitialized();
 const request = require("request-promise");
 const ResponseHandler = require("../helpers/ResponseHandler");
 
 class Secret {
   constructor(url, token) {
     if (url === undefined) {
-      throw new TypeError("url not defined");
+      throw ("url not defined");
     }
+
     //set request defaults
     this.rp = request.defaults({
       baseUrl: `${url}/api/v1/secrets/`,
@@ -15,7 +17,9 @@ class Secret {
       resolveWithFullResponse:true,
       simple:false
     });
+
     this.options = {};
+
     //handle the responses
     this.request = (options = {}) => {
       return token
@@ -32,9 +36,10 @@ class Secret {
   }
 
   get(id) {
-    if (id === undefined) {
-      throw "Expected a secret ID";
+    if (id === undefined || id < 1) {
+      throw ("Expected a positive Secret Id");
     }
+
     this.options.uri = id.toString();
     this.options.method = "GET";
 
@@ -43,8 +48,9 @@ class Secret {
 
   getField(id, field) {
     if (id === undefined && field === undefined) {
-      throw "Both Secret Id and fields are required"
+      throw "Both Secret Id and fields are required";
     }
+
     this.options.uri = `${id.toString()}/fields/${field}`;
     this.options.method = "GET";
 

@@ -24,8 +24,8 @@ class Client {
     _config.set(this, () => { let config = new Configure(this.options); return config; });
 
     this.token = this.accessToken();
-    let secret =  new Secret(this.options.baseUrl, this.token);
-    _secret.set(this, secret);
+    // let secret =  () => {return new Secret(this.options.baseUrl, this.token)};
+    _secret.set(this, () =>{let secret = new Secret(this.options.baseUrl, this.token); return secret});
   }
 
   init() {
